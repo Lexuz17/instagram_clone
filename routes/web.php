@@ -17,7 +17,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Auth/ForgotPassword');
+    return Inertia::render('Home');
 });
 
 Route::middleware('auth')->group(function () {
