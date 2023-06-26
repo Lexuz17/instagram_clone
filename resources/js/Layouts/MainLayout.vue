@@ -14,6 +14,7 @@ import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
 import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue';
 
 import MenuItem from '@/Components/MenuItem.vue'
+import CreatePostOverlay from '@/Components/CreatePostOverlay.vue'
 
 let showCreatePost = ref(false)
 
@@ -84,6 +85,8 @@ let showCreatePost = ref(false)
                 <Link href="/">
                     <MenuItem iconString="Notifications" class="mb-4"/>
                 </Link>
+                <MenuItem @click="$event => showCreatePost = true" iconString="Create" class="mb-4"/>
+                <!-- Kalau true dia buka tapi false dia tutup -->
                 <Link href="/">
                     <MenuItem iconString="Profile" class="mb-4"/>
                 </Link>
@@ -163,4 +166,6 @@ let showCreatePost = ref(false)
             </Link>
         </div>
     </div>
+
+    <CreatePostOverlay v-if="showCreatePost" @close="$event => showCreatePost = false"/>
 </template>
