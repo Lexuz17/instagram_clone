@@ -24,6 +24,25 @@
         file: null,
     })
 
+    const createPostFunc = () => {
+        error.value.text = null
+        error.value.file = null
+
+        // Buat ngirim ke post page.
+        router.post('/post', form, {
+            forceFormData: true,
+            preserveScroll: true,
+            onError: errors => {
+                errors && errors.text ? error.value.text = errors.text: ''
+                errors && errors.file ? error.value.file = errors.file: ''
+            },
+
+            onSuccess: () => {
+                closeOverlay()
+            }
+        })
+    }
+
     // Untuk dapetin gambar yang diupload.
     const getUploadedImage = (e) =>{
         form.file = e.target.files[0] //disimpan di form file yang dideklrasi di variabel reactive
@@ -99,13 +118,52 @@
                 </div>
 
                 <div id="TextAreaSection" class="max-w-[720px] w-full relative">
-                    <div class="flex items-center">
+                    <div class="flex items-center p-2">
                         <img class="rounded-full w-[38px] h-[38px]" src="https://i.pinimg.com/originals/14/e7/fd/14e7fde33ea0f19fe080aa57e77f7d8f.jpg" alt="">
                         <div class="ml-4 font-extrabold text-[15px]">NAME HERE</div>
                     </div>
-                </div>
+                    <div v-if="error && error.text" class="text-red-500 p-2 font-extrabold">{{error.text}}</div>
 
-                <div v-if="error && error.text" class="text-red-500 p-2 font-extrabold">{{error.text}}</div>
+                    <div class="flex w-full max-h-[200px] bg-white border-b">
+                        <textarea
+                            ref="textarea"
+                            v-model="form.text"
+                            placeholder="Write caption..."
+                            rows="10"
+                            class="
+                                placeholder-gray-500
+                                w-full
+                                border-0
+                                mt-2
+                                mb-2
+                                z-50
+                                focus:ring-0
+                                text-gray-600
+                                text-[18px]
+                            "
+                        ></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-between border-b p-3">
+                        <div class="text-lg font-extrabold text-gray-500">Add Location</div>
+                        <MapMarkerOutline :size="27"/>
+                    </div>
+
+                    <div class="flex items-center justify-between border-b p-3">
+                        <div class="text-lg font-extrabold text-gray-500">Accesibility</div>
+                        <ChevronDown :size="27"/>
+                    </div>
+
+                    <div class="flex items-center justify-between border-b p-3">
+                        <div class="text-lg font-extrabold text-gray-500">Advanced Settings</div>
+                        <ChevronDown :size="27"/>
+                    </div>
+
+                    <div class="text-gray-500 mt-3 p-3 text-sm">
+                        Your reel will be shared with your followers in their feeds and can be seen on your profile. It may also appear in places such as Reels, where anyone can see it.
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
